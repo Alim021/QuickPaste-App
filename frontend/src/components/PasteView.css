@@ -1,60 +1,114 @@
-/* PasteView.css */
-
 .paste-container {
   max-width: 900px;
-  margin: 40px auto;
-  padding: 30px;
+  margin: 0 auto;
+  padding: 20px;
   font-family: Arial, sans-serif;
 }
 
-.back-btn {
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 4px;
-  cursor: pointer;
+.paste-loading {
+  text-align: center;
+  padding: 50px;
+  font-size: 18px;
+  color: #666;
+}
+
+.paste-error {
+  text-align: center;
+  padding: 50px;
+}
+
+.paste-error h2 {
+  color: #dc3545;
+  margin-bottom: 10px;
+}
+
+.paste-error p {
+  color: #666;
   margin-bottom: 20px;
 }
 
-.back-btn:hover {
-  background-color: #1e40af;
+.paste-back-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.paste-back-link:hover {
+  text-decoration: underline;
+}
+
+.paste-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
 }
 
 .paste-title {
-  margin-bottom: 15px;
-  color: #111827;
+  font-size: 24px;
+  color: #333;
+}
+
+.paste-create-link {
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.paste-create-link:hover {
+  background: #0056b3;
+}
+
+.paste-content-box {
+  background: #f5f5f5;
+  padding: 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  max-height: 70vh;
+  overflow: auto;
 }
 
 .paste-content {
-  background-color: #f3f4f6;
-  padding: 20px;
-  border-radius: 6px;
-  white-space: pre-wrap;
-  font-size: 15px;
+  font-family: monospace;
+  font-size: 14px;
   line-height: 1.6;
-  margin-bottom: 20px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin: 0;
 }
 
-.copy-btn {
-  background-color: #16a34a;
+.paste-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.paste-copy-button {
+  padding: 10px 20px;
+  background: #28a745;
   color: white;
   border: none;
-  padding: 8px 14px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 14px;
 }
 
-.copy-btn:hover {
-  background-color: #15803d;
+.paste-copy-button:hover {
+  background: #218838;
 }
 
-.error-box {
-  text-align: center;
-  padding: 60px;
+.paste-home-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
 }
 
-.error-box h2 {
-  color: #dc2626;
-  margin-bottom: 20px;
+.paste-home-link:hover {
+  text-decoration: underline;
 }

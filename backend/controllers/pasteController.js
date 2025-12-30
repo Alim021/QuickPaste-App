@@ -20,15 +20,23 @@ exports.createPaste = async (req, res) => {
     return res.status(400).json({ error: 'Content required' });
   }
 
-  const id = nanoid(8);
-
+  // Use simple ID without special characters
+  const id = nanoid(10).replace(/[\/\\]/g, '-'); // Replace slashes with dashes
+  
   try {
-    const paste = new Paste({ _id: id, content, views: 0 });
+    const paste = new Paste({ 
+      _id: id, 
+      content: content.trim(),
+      views: 0 
+    });
     await paste.save();
 
+    // Return BOTH the ID and full URL
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     res.json({
-      id,
-      url: `http://localhost:3000/paste/${id}`,
+      id: id,
+      url: `${frontendUrl}/paste/${id}`,
+      message: 'Paste created successfully'
     });
   } catch (err) {
     console.error('Error creating paste:', err);
@@ -41,19 +49,30 @@ exports.createPaste = async (req, res) => {
  * @param {import('express').Response} res
  */
 exports.getPaste = async (req, res) => {
+  const { id } = req.params;
+  
+  console.log('Fetching paste with ID:', id); // Debug log
+  
   try {
-    const paste = await Paste.findById(req.params.id);
+    const paste = await Paste.findById(id);
+    
     if (!paste) {
-      return res.status(404).json({ error: 'Not found' });
+      console.log('Paste not found for ID:', id);
+      return res.status(404).json({ 
+        error: 'Paste not found',
+        id: id
+      });
     }
 
-    paste.views++;
+    paste.views += 1;
     await paste.save();
 
     res.json({
+      id: paste._id,
       content: paste.content,
-      remaining_views: null,
-      expires_at: null,
+      views: paste.views,
+      created_at: paste.createdAt,
+      expires_at: null
     });
   } catch (err) {
     console.error('Error fetching paste:', err);

@@ -1,79 +1,128 @@
-/* Home.css */
-
 .home-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-background: linear-gradient(135deg, #667eea, #764ba2);  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.home-card {
-  background: white;
-  padding: 30px;
-  width: 500px;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+.home-header {
   text-align: center;
+  margin-bottom: 40px;
 }
 
 .home-title {
-  margin-bottom: 20px;
-  color: #111827;
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.home-subtitle {
+  font-size: 16px;
+  color: #666;
+}
+
+.home-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .home-textarea {
   width: 100%;
-  height: 180px;
-  padding: 12px;
+  padding: 15px;
   font-size: 14px;
+  border: 1px solid #ddd;
   border-radius: 6px;
-  border: 1px solid #d1d5db;
-  margin-bottom: 15px;
-  resize: none;
+  resize: vertical;
+  font-family: monospace;
+  margin-bottom: 20px;
 }
 
-.create-btn {
-  background-color: #2563eb;
+.home-textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.home-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.home-button {
+  padding: 12px 30px;
+  font-size: 16px;
+  background: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.create-btn:disabled {
-  background-color: #93c5fd;
+.home-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.home-button:disabled {
+  background: #ccc;
+  color: #666;
   cursor: not-allowed;
 }
 
-.create-btn:hover:not(:disabled) {
-  background-color: #1e40af;
+.home-char-count {
+  color: #666;
+  font-size: 14px;
 }
 
-.success-box {
-  margin-top: 20px;
-  background-color: #ecfdf5;
-  padding: 15px;
+.home-result {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f8f9fa;
   border-radius: 6px;
 }
 
-.success-box a {
-  display: block;
-  margin: 10px 0;
-  color: #2563eb;
-  word-break: break-all;
+.home-success {
+  color: #28a745;
+  font-size: 16px;
+  margin-bottom: 15px;
 }
 
-.copy-btn {
-  background-color: #16a34a;
+.home-link-box {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.home-link-input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.home-copy-button {
+  padding: 10px 20px;
+  background: #6c757d;
   color: white;
   border: none;
-  padding: 6px 14px;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.copy-btn:hover {
-  background-color: #15803d;
+.home-copy-button:hover {
+  opacity: 0.9;
+}
+
+.home-view-link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.home-view-link:hover {
+  text-decoration: underline;
 }

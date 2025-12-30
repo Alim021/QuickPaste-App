@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './Home.css';
 
 export default function Home() {
   const [text, setText] = useState('');
@@ -14,61 +13,105 @@ export default function Home() {
 
     setLoading(true);
     try {
-      const API_URL = 'https://quickpaste-app-backend.onrender.com/api';
-
-      const res = await fetch(`${API_URL}/pastes`, {
+      // USE LOCAL BACKEND FOR NOW
+      const url = 'http://localhost:5000/api/pastes';
+      console.log('🚀 Fetching from:', url);
+      
+      const res = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
         body: JSON.stringify({ content: text }),
       });
 
-      if (!res.ok) throw new Error('Failed to create paste');
+      console.log('📡 Response status:', res.status);
+      
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`HTTP ${res.status}: ${errorText}`);
+      }
 
       const data = await res.json();
+      console.log('✅ Success:', data);
       setLink(data.url);
     } catch (error) {
-      console.error(error);
-      alert('Error creating paste');
+      console.error('❌ Error:', error);
+      alert(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="home-container">
-      <div className="home-card">
-        <h1 className="home-title">Quick Paste</h1>
+    <div style={{ padding: 50, textAlign: 'center' }}>
+      <h1>Create Paste</h1>
+      
+      <textarea
+        rows={10}
+        cols={50}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Type your text here..."
+        style={{ margin: '20px 0', padding: 10, fontSize: 16 }}
+      />
+      <br />
+      
+      <button 
+        onClick={createPaste} 
+        disabled={loading}
+        style={{ 
+          padding: '12px 24px', 
+          fontSize: 16,
+          backgroundColor: '#007bff',
+          color: 'white',
+          border: 'none',
+          borderRadius: 5,
+          cursor: 'pointer'
+        }}
+      >
+        {loading ? 'Creating...' : 'Create Paste'}
+      </button>
 
-        <textarea
-          className="home-textarea"
-          placeholder="Type your text here..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-
-        <button
-          className="create-btn"
-          onClick={createPaste}
-          disabled={loading}
-        >
-          {loading ? 'Creating...' : 'Create Paste'}
-        </button>
-
-        {link && (
-          <div className="success-box">
-            <p>✅ Paste created successfully</p>
-            <a href={link} target="_blank" rel="noreferrer">
-              {link}
-            </a>
-            <button
-              className="copy-btn"
-              onClick={() => navigator.clipboard.writeText(link)}
-            >
-              Copy Link
-            </button>
-          </div>
-        )}
-      </div>
+      {link && (
+        <div style={{ 
+          marginTop: 30, 
+          padding: 20, 
+          background: '#d4edda', 
+          borderRadius: 5 
+        }}>
+          <p style={{ color: '#155724', fontWeight: 'bold' }}>
+            ✅ Paste created successfully
+          </p>
+          <a 
+            href={link} 
+            target="_blank" 
+            rel="noreferrer"
+            style={{ color: '#0056b3', wordBreak: 'break-all' }}
+          >
+            {link}
+          </a>
+          <br />
+          <button 
+            onClick={() => {
+              navigator.clipboard.writeText(link);
+              alert('Link copied!');
+            }}
+            style={{ 
+              marginTop: 10,
+              padding: '8px 16px',
+              backgroundColor: '#28a745',
+              color: 'white',
+              border: 'none',
+              borderRadius: 5,
+              cursor: 'pointer'
+            }}
+          >
+            📋 Copy Link
+          </button>
+        </div>
+      )}
     </div>
   );
 }
