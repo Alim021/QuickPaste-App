@@ -14,17 +14,20 @@ export default function Home() {
 
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/pastes', {
+      const API_URL = 'https://quickpaste-app-backend.onrender.com/api';
+
+      const res = await fetch(`${API_URL}/pastes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ content: text }),
       });
 
-      if (!res.ok) throw new Error('Failed');
+      if (!res.ok) throw new Error('Failed to create paste');
 
       const data = await res.json();
       setLink(data.url);
-    } catch {
+    } catch (error) {
+      console.error(error);
       alert('Error creating paste');
     } finally {
       setLoading(false);
@@ -34,7 +37,7 @@ export default function Home() {
   return (
     <div className="home-container">
       <div className="home-card">
-        <h1>Create Paste</h1>
+        <h1 className="home-title">Quick Paste</h1>
 
         <textarea
           className="home-textarea"
@@ -57,7 +60,6 @@ export default function Home() {
             <a href={link} target="_blank" rel="noreferrer">
               {link}
             </a>
-            <br />
             <button
               className="copy-btn"
               onClick={() => navigator.clipboard.writeText(link)}

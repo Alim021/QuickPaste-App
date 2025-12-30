@@ -11,11 +11,14 @@ export default function PasteView() {
   useEffect(() => {
     const fetchPaste = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/pastes/${id}`);
-        if (!res.ok) throw new Error();
+        const API_URL = 'https://quickpaste-app-backend.onrender.com/api';
+
+        const res = await fetch(`${API_URL}/pastes/${id}`);
+        if (!res.ok) throw new Error('Paste not found');
+
         const data = await res.json();
         setContent(data.content);
-      } catch {
+      } catch (err) {
         setError('Paste not found or has expired');
       }
     };
@@ -24,34 +27,34 @@ export default function PasteView() {
   }, [id]);
 
   if (error) {
-    return <div className="error-box">{error}</div>;
+    return (
+      <div className="error-box">
+        <h2>Error: {error}</h2>
+        <button className="back-btn" onClick={() => navigate('/')}>
+          Back to Home
+        </button>
+      </div>
+    );
   }
 
   return (
-    <div className="pasteview-container">
-      <div className="paste-card">
+    <div className="paste-container">
+      <button className="back-btn" onClick={() => navigate('/')}>
+        ← Back to Home
+      </button>
 
-        {/* 🔙 Back Button */}
-        <button
-          className="back-btn"
-          onClick={() => navigate('/')}
-        >
-          ← Back to Home
-        </button>
+      <h2 className="paste-title">Paste Content</h2>
 
-        <h2 className="paste-title">Paste Content</h2>
+      <pre className="paste-content">
+        {content}
+      </pre>
 
-        <pre className="paste-content">
-          {content}
-        </pre>
-
-        <button
-          className="copy-btn"
-          onClick={() => navigator.clipboard.writeText(content)}
-        >
-          Copy Text
-        </button>
-      </div>
+      <button
+        className="copy-btn"
+        onClick={() => navigator.clipboard.writeText(content)}
+      >
+        Copy Text
+      </button>
     </div>
   );
 }

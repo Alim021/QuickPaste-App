@@ -3,94 +3,77 @@
 .home-container {
   min-height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  padding: 20px;
+  align-items: center;
+background: linear-gradient(135deg, #667eea, #764ba2);  font-family: Arial, sans-serif;
 }
 
 .home-card {
-  background: #ffffff;
-  padding: 25px 30px;
-  border-radius: 10px;
-  width: 100%;
-  max-width: 520px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  background: white;
+  padding: 30px;
+  width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-.home-card h1 {
-  text-align: center;
+.home-title {
   margin-bottom: 20px;
-  color: #333;
+  color: #111827;
 }
 
 .home-textarea {
   width: 100%;
-  min-height: 180px;
+  height: 180px;
   padding: 12px;
   font-size: 14px;
   border-radius: 6px;
-  border: 1px solid #ccc;
-  resize: vertical;
-  outline: none;
-}
-
-.home-textarea:focus {
-  border-color: #667eea;
+  border: 1px solid #d1d5db;
+  margin-bottom: 15px;
+  resize: none;
 }
 
 .create-btn {
-  width: 100%;
-  margin-top: 15px;
-  padding: 12px;
-  background: #667eea;
+  background-color: #2563eb;
   color: white;
   border: none;
+  padding: 10px 20px;
   border-radius: 6px;
-  font-size: 15px;
   cursor: pointer;
-  transition: background 0.3s;
-}
-
-.create-btn:hover {
-  background: #5a67d8;
 }
 
 .create-btn:disabled {
-  background: #aaa;
+  background-color: #93c5fd;
   cursor: not-allowed;
+}
+
+.create-btn:hover:not(:disabled) {
+  background-color: #1e40af;
 }
 
 .success-box {
   margin-top: 20px;
-  background: #f1f5ff;
+  background-color: #ecfdf5;
   padding: 15px;
   border-radius: 6px;
-  text-align: center;
-}
-
-.success-box p {
-  margin: 5px 0;
-  color: #333;
 }
 
 .success-box a {
-  color: #667eea;
-  font-weight: 500;
+  display: block;
+  margin: 10px 0;
+  color: #2563eb;
   word-break: break-all;
 }
 
 .copy-btn {
-  margin-top: 10px;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 5px;
-  background: #28a745;
+  background-color: #16a34a;
   color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
 }
 
 .copy-btn:hover {
-  background: #218838;
+  background-color: #15803d;
 }
