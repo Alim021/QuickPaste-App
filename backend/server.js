@@ -5,9 +5,22 @@ require('dotenv').config();
 
 const app = express();
 
-// Enable CORS for React app running on port 3000
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://your-vercel-app.vercel.app'  // Replace this with your actual Vercel frontend URL
+];
+
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: function(origin, callback){
+    // allow requests with no origin (like Postman or curl)
+    if(!origin) return callback(null, true);
+
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true
 }));
 
