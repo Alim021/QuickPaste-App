@@ -1,0 +1,72 @@
+/* PasteView.css */
+
+.pasteview-container {
+  min-height: 90vh;
+  padding: 30px 15px;
+  display: flex;
+  justify-content: center;
+  background: #f0f2f5;
+}
+
+.paste-card {
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.paste-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.paste-content {
+  white-space: pre-wrap;
+  font-family: monospace;
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+}
+
+.copy-btn {
+  margin-top: 15px;
+  padding: 10px 16px;
+  background: #667eea;
+  border: none;
+  color: white;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.copy-btn:hover {
+  background: #5a67d8;
+}
+
+.error-box {
+  padding: 20px;
+  text-align: center;
+  color: #d32f2f;
+  font-size: 16px;
+}
+.back-btn {
+  background: transparent;
+  border: none;
+  color: #667eea;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
