@@ -1,71 +1,56 @@
-import React, { useState } from 'react';
-import './Home.css';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import './PasteView.css';
 
-export default function Home() {
-  const [text, setText] = useState('');
-  const [link, setLink] = useState('');
-  const [loading, setLoading] = useState(false);
+export default function PasteView() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [content, setContent] = useState('Loading...');
+  const [error, setError] = useState('');
 
-  const createPaste = async () => {
-    if (!text.trim()) {
-      alert('Please enter some text');
-      return;
-    }
+  useEffect(() => {
+    const fetchPaste = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/pastes/${id}`);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        setContent(data.content);
+      } catch {
+        setError('Paste not found or has expired');
+      }
+    };
 
-    setLoading(true);
-    try {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/pastes`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: text }),
-      });
+    fetchPaste();
+  }, [id]);
 
-      if (!res.ok) throw new Error('Failed');
-
-      const data = await res.json();
-      setLink(data.url);
-    } catch {
-      alert('Error creating paste');
-    } finally {
-      setLoading(false);
-    }
-  };
+  if (error) {
+    return <div className="error-box">{error}</div>;
+  }
 
   return (
-    <div className="home-container">
-      <div className="home-card">
-        <h1>Create Paste</h1>
+    <div className="pasteview-container">
+      <div className="paste-card">
 
-        <textarea
-          className="home-textarea"
-          placeholder="Type your text here..."
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-
+        {/* 🔙 Back Button */}
         <button
-          className="create-btn"
-          onClick={createPaste}
-          disabled={loading}
+          className="back-btn"
+          onClick={() => navigate('/')}
         >
-          {loading ? 'Creating...' : 'Create Paste'}
+          ← Back to Home
         </button>
 
-        {link && (
-          <div className="success-box">
-            <p>✅ Paste created successfully</p>
-            <a href={link} target="_blank" rel="noreferrer">
-              {link}
-            </a>
-            <br />
-            <button
-              className="copy-btn"
-              onClick={() => navigator.clipboard.writeText(link)}
-            >
-              Copy Link
-            </button>
-          </div>
-        )}
+        <h2 className="paste-title">Paste Content</h2>
+
+        <pre className="paste-content">
+          {content}
+        </pre>
+
+        <button
+          className="copy-btn"
+          onClick={() => navigator.clipboard.writeText(content)}
+        >
+          Copy Text
+        </button>
       </div>
     </div>
   );
