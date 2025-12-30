@@ -11,7 +11,7 @@ export default function PasteView() {
   useEffect(() => {
     const fetchPaste = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/pastes/${id}`);
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/pastes/${id}`);
         if (!res.ok) throw new Error();
         const data = await res.json();
         setContent(data.content);
