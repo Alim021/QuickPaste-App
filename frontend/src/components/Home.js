@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 
+// Auto backend detect
+const API_BASE_URL =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:5000'
+    : 'https://quickpaste-app-backend.onrender.com';
+
 export default function Home() {
   const [text, setText] = useState('');
   const [link, setLink] = useState('');
@@ -13,61 +19,66 @@ export default function Home() {
 
     setLoading(true);
     try {
-      // USE LOCAL BACKEND FOR NOW
-      const url = 'http://localhost:5000/api/pastes';
+      const url = `${API_BASE_URL}/api/pastes`;
       console.log('🚀 Fetching from:', url);
-      
+
       const res = await fetch(url, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
         },
         body: JSON.stringify({ content: text }),
       });
 
-      console.log('📡 Response status:', res.status);
-      
       if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(`HTTP ${res.status}: ${errorText}`);
+        throw new Error(`HTTP ${res.status}`);
       }
 
       const data = await res.json();
-      console.log('✅ Success:', data);
       setLink(data.url);
-    } catch (error) {
-      console.error('❌ Error:', error);
-      alert(`Error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to create paste');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: 50, textAlign: 'center' }}>
-      <h1>Create Paste</h1>
-      
+    <div style={{
+      padding: 20,
+      maxWidth: 800,
+      margin: '0 auto',
+      textAlign: 'center'
+    }}>
+      <h1>Quick Paste</h1>
+
       <textarea
         rows={10}
-        cols={50}
         value={text}
         onChange={(e) => setText(e.target.value)}
-        placeholder="Type your text here..."
-        style={{ margin: '20px 0', padding: 10, fontSize: 16 }}
+        placeholder="Type or paste text here..."
+        style={{
+          width: '100%',
+          padding: 12,
+          fontSize: 16,
+          borderRadius: 6,
+          border: '1px solid #ccc',
+          marginBottom: 15
+        }}
       />
-      <br />
-      
-      <button 
-        onClick={createPaste} 
+
+      <button
+        onClick={createPaste}
         disabled={loading}
-        style={{ 
-          padding: '12px 24px', 
+        style={{
+          width: '100%',
+          padding: 14,
           fontSize: 16,
           backgroundColor: '#007bff',
           color: 'white',
           border: 'none',
-          borderRadius: 5,
+          borderRadius: 6,
           cursor: 'pointer'
         }}
       >
@@ -75,37 +86,36 @@ export default function Home() {
       </button>
 
       {link && (
-        <div style={{ 
-          marginTop: 30, 
-          padding: 20, 
-          background: '#d4edda', 
-          borderRadius: 5 
+        <div style={{
+          marginTop: 25,
+          background: '#e6fffa',
+          padding: 15,
+          borderRadius: 6
         }}>
-          <p style={{ color: '#155724', fontWeight: 'bold' }}>
-            ✅ Paste created successfully
-          </p>
-          <a 
-            href={link} 
-            target="_blank" 
+          <p>✅ Paste created</p>
+          <a
+            href={link}
+            target="_blank"
             rel="noreferrer"
-            style={{ color: '#0056b3', wordBreak: 'break-all' }}
+            style={{ wordBreak: 'break-all' }}
           >
             {link}
           </a>
-          <br />
-          <button 
+
+          <button
             onClick={() => {
               navigator.clipboard.writeText(link);
               alert('Link copied!');
             }}
-            style={{ 
+            style={{
+              display: 'block',
+              width: '100%',
               marginTop: 10,
-              padding: '8px 16px',
-              backgroundColor: '#28a745',
+              padding: 10,
+              background: '#28a745',
               color: 'white',
               border: 'none',
-              borderRadius: 5,
-              cursor: 'pointer'
+              borderRadius: 6
             }}
           >
             📋 Copy Link
